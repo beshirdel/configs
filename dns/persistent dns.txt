@@ -1,0 +1,21 @@
+## set dns permanently
+
+# edit /etc/netplan/01-network-manager-all.yaml
+network:
+  version: 2
+  renderer: NetworkManager # or networkd
+  ethernets:
+    enp0s3:
+      nameservers:
+        addresses: [1.1.1.1,4.2.2.4]
+
+
+$ sudo chmod 600 /etc/netplan/01-network-manager-all.yaml
+
+$ sudo unlink /etc/resolv.conf
+$ sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+
+$ sudo netplan generate
+$ sudo netplan apply
+
+$ sudo systemctl restart systemd-resolved.service 
